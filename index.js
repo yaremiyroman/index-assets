@@ -16,7 +16,6 @@ const index = async (dir) => {
 
   for (const entry of entries) {
     if (entry.isDirectory()) {
-      console.log('=== entry ==>', entry);
       files = [
         ...files,
         ...(await index(`${dir}/${entry.name}`)),
@@ -47,5 +46,11 @@ const record = (fd, files) => {
 
 index(targetFolderAbsolute).then(files =>
   open(path.join(targetFolderAbsolute, 'index.js'), 'w', (err, fd) => record(fd, files)))
+
+fs.watch(targetFolderAbsolute, (event, filename) => {
+  if (event == 'change') {f
+    console.log('=== change ==>');
+  }
+});
 
 module.exports = index;
