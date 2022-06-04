@@ -1,12 +1,14 @@
 'use strict';
 
 const fs = require('fs').promises;
-const { open, close, writeFileSync } = require('fs')
-const { EOL } = require('os')
+const { open, close, writeFileSync } = require('fs');
+const { EOL } = require('os');
 const path = require('path');
 
-const targetFolderAbsolute = path.join(__dirname, './src/images');
-
+const targetFolderAbsolute = path.resolve(__dirname, '../../src/images');
+// const targetFolderAbsolute = path.join(__dirname, './src/images');
+// console.log('projectRootPath      > ', projectRootPath);
+console.log('targetFolderAbsolute > ', targetFolderAbsolute);
 const index = async (dir) => {
   let files = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
