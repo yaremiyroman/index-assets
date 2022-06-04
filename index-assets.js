@@ -44,21 +44,16 @@ const record = (fd, files) => {
   close(fd, () => console.log('+++ Indexed +++'));
 }
 
-const watchD = dir =>
-  watch(dir, (event, filename) => {
-    if (path.extname(filename) === '.svg') {
-      console.log('+++ svg +++> ');
-      if (event == 'change' || event == 'rename') {
-        console.log('+++ event +++> ', event);
-        indexDir(dir);
-      }
-    }
-  });
-
 const indexDir = dir =>
   index(dir).then(files =>
     open(path.join(dir, 'index.js'), 'w', (err, fd) =>
       record(fd, files)))
 
-module.exports = watchD;
+const watchStatic = dir =>
+  indexDir(dir).then(watch(dir, (event, filename) =>
+    (event == 'change' || event == 'rename') && path.extname(filename) === '.svg' && indexDir(dir)
+  ));
+
+
+module.exports = watchStatic;
 module.exports.default = module.exports;
