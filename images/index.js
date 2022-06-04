@@ -1,0 +1,15 @@
+export { default as addWhite } from './add-white.svg';
+export { default as confirmImageAnnotated } from './confirm-image-annotated.svg';
+export { default as confirmWhite } from './confirm-white.svg';
+export { default as deleteGrey } from './delete-grey.svg';
+export { default as deleteRed } from './delete-red.svg';
+export { default as queueList } from './queue-list.svg';
+export { default as search } from './search.svg';
+export { default as confirmImageAnnotated3 } from './assets/confirm-image-annotated3.svg';
+export { default as assetsConfirmWhite } from './assets/confirm-white.svg';
+export { default as assetsIconsConfirmImageAnnotated } from './assets/icons/confirm-image-annotated.svg';
+export { default as assetsIconsConfirmWhite } from './assets/icons/confirm-white.svg';
+export { default as assetsIconsDeleteGrey } from './assets/icons/delete-grey.svg';
+export { default as iconsConfirmImageAnnotated } from './icons/confirm-image-annotated.svg';
+export { default as iconsConfirmWhite } from './icons/confirm-white.svg';
+export { default as iconsDeleteGrey } from './icons/delete-grey.svg';
