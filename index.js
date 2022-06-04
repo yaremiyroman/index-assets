@@ -5,7 +5,7 @@ const { open, close, writeFileSync } = require('fs')
 const { EOL } = require('os')
 const path = require('path');
 
-const targetFolderAbsolute = path.join(__dirname, './images');
+const targetFolderAbsolute = path.join(__dirname, './src/images');
 
 const index = async (dir) => {
   let files = [];
