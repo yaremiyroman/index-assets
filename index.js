@@ -6,9 +6,7 @@ const { EOL } = require('os');
 const path = require('path');
 
 const targetFolderAbsolute = path.resolve(__dirname, '../../src/images');
-// const targetFolderAbsolute = path.join(__dirname, './src/images');
-// console.log('projectRootPath      > ', projectRootPath);
-console.log('targetFolderAbsolute > ', targetFolderAbsolute);
+
 const index = async (dir) => {
   let files = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
@@ -48,7 +46,6 @@ const record = (fd, files) => {
 }
 
 index(targetFolderAbsolute).then(files =>
-  open(path.join(targetFolderAbsolute, 'index.js'), 'w', (err, fd) =>
-    record(fd, files)))
+  open(path.join(targetFolderAbsolute, 'index.js'), 'w', (err, fd) => record(fd, files)))
 
 module.exports = index;
