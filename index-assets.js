@@ -1,10 +1,10 @@
 'use strict';
 
 const fs = require('fs').promises;
-const { open, close, writeFileSync } = require('fs');
+const { open, close, writeFileSync, watch } = require('fs');
 const { EOL } = require('os');
 const path = require('path');
-
+// const paths = require('../config/paths');
 const targetFolderAbsolute = path.resolve(__dirname, '../../src/images');
 
 const index = async (dir) => {
@@ -44,13 +44,21 @@ const record = (fd, files) => {
   close(fd, () => console.log('+++ Indexed +++'));
 }
 
-index(targetFolderAbsolute).then(files =>
-  open(path.join(targetFolderAbsolute, 'index.js'), 'w', (err, fd) => record(fd, files)))
+const watchD = dir =>
+  watch(dir, (event, filename) => {
+    if (path.extname(filename) === '.svg') {
+      console.log('+++ svg +++> ');
+      if (event == 'change' || event == 'rename') {
+        console.log('+++ event +++> ', event);
+        indexDir(dir);
+      }
+    }
+  });
 
-fs.watch(targetFolderAbsolute, (event, filename) => {
-  if (event == 'change') {f
-    console.log('=== change ==>');
-  }
-});
+const indexDir = dir =>
+  index(dir).then(files =>
+    open(path.join(dir, 'index.js'), 'w', (err, fd) =>
+      record(fd, files)))
 
-module.exports = index;
+module.exports = watchD;
+module.exports.default = module.exports;

@@ -1,1 +1,10 @@
 # index-assets
+<!-- ,
+  "devDependencies": {
+    "fs": "^0.0.1-security",
+    "os": "^0.1.2",
+    "os-browserify": "^0.3.0",
+    "path": "^0.12.7",
+    "path-browserify": "^1.0.1",
+    "stream": "^0.0.2"
+  } -->
