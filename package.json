@@ -1,11 +1,19 @@
 {
   "name": "index-assets",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "asdfsadfsf",
+  "main": "index-assets.js",
+  "browser": {
+    "fs": false,
+    "os": false
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+<<<<<<< HEAD
     "index": "node staticIndexation.js"
+=======
+    "index": "node index"
+>>>>>>> 22871b46eee89ffe78b288bbc16d2ffb3fb399a1
   },
   "repository": {
     "type": "git",
