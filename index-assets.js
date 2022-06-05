@@ -10,9 +10,8 @@ const targetFolderAbsolute = path.resolve(__dirname, '../../src/images');
 const index = async (dir) => {
   let files = [];
   const entries = await fs.readdir(dir, { withFileTypes: true });
-  const SVGs = entries.filter(entry => path.extname(entry.name) === '.svg');
 
-  SVGs.forEach(entry => files.push(`${dir}/${entry.name}`));
+  entries.forEach(entry => path.extname(entry.name) === '.svg' && files.push(`${dir}/${entry.name}`));
 
   for (const entry of entries) {
     if (entry.isDirectory()) {
