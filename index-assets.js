@@ -4,7 +4,7 @@ const fs = require('fs').promises;
 const { open, close, writeFileSync, watch } = require('fs');
 const { EOL } = require('os');
 const path = require('path');
-// const paths = require('../config/paths');
+const camelCase = require('camelcase');
 const targetFolderAbsolute = path.resolve(__dirname, '../../src/images');
 
 const index = async (dir) => {
@@ -34,8 +34,7 @@ const record = (fd, files) => {
     const exportFullRelPath = file.substr(targetFolderAbsolute.length);
     const fileParents = exportFullRelPath.substr(0, exportFullRelPath.indexOf(fileName)).split('/').filter(name => !!name.length);
     const exportName = records.includes(fileName) ? `${fileParents.join('-')}-${fileName}` : fileName;
-    const fileFormattedName = exportName.replace(/-([a-z])/g, (m, w) => w.toUpperCase());
-    const record = `export { default as ${fileFormattedName} } from '.${exportFullRelPath}';${EOL}`;
+    const record = `export { default as ${camelCase(exportName)} } from '.${exportFullRelPath}';${EOL}`;
 
     records.push(exportName);
     writeFileSync(fd, record);
