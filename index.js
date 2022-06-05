@@ -1,11 +1,11 @@
 'use strict';
 
 const fs = require('fs').promises;
-const { open, close, writeFileSync } = require('fs')
-const { EOL } = require('os')
+const { open, close, writeFileSync, watch } = require('fs');
+const { EOL } = require('os');
 const path = require('path');
-
-const targetFolderAbsolute = path.join(__dirname, './images');
+const camelCase = require('camelcase');
+const targetFolderAbsolute = path.resolve(__dirname, '../../src/images');
 
 const index = async (dir) => {
   let files = [];
@@ -16,7 +16,6 @@ const index = async (dir) => {
 
   for (const entry of entries) {
     if (entry.isDirectory()) {
-      console.log('=== entry ==>', entry);
       files = [
         ...files,
         ...(await index(`${dir}/${entry.name}`)),
@@ -35,8 +34,7 @@ const record = (fd, files) => {
     const exportFullRelPath = file.substr(targetFolderAbsolute.length);
     const fileParents = exportFullRelPath.substr(0, exportFullRelPath.indexOf(fileName)).split('/').filter(name => !!name.length);
     const exportName = records.includes(fileName) ? `${fileParents.join('-')}-${fileName}` : fileName;
-    const fileFormattedName = exportName.replace(/-([a-z])/g, (m, w) => w.toUpperCase());
-    const record = `export { default as ${fileFormattedName} } from '.${exportFullRelPath}';${EOL}`;
+    const record = `export { default as ${camelCase(exportName)} } from '.${exportFullRelPath}';${EOL}`;
 
     records.push(exportName);
     writeFileSync(fd, record);
@@ -45,8 +43,16 @@ const record = (fd, files) => {
   close(fd, () => console.log('+++ Indexed +++'));
 }
 
-index(targetFolderAbsolute).then(files =>
-  open(path.join(targetFolderAbsolute, 'index.js'), 'w', (err, fd) =>
-    record(fd, files)))
+const indexDir = dir =>
+  index(dir).then(files =>
+    open(path.join(dir, 'index.js'), 'w', (err, fd) =>
+      record(fd, files)))
 
-module.exports = index;
+const watchStatic = dir =>
+  indexDir(dir).then(watch(dir, (event, filename) =>
+    (event == 'change' || event == 'rename') && path.extname(filename) === '.svg' && indexDir(dir)
+  ));
+
+
+module.exports = watchStatic;
+module.exports.default = module.exports;
