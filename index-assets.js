@@ -53,6 +53,5 @@ const watchStatic = dir =>
     (event == 'change' || event == 'rename') && path.extname(filename) === '.svg' && indexDir(dir)
   ));
 
-
 module.exports = watchStatic;
 module.exports.default = module.exports;
